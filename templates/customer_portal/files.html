@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load adminfiles_tags %}
+
+{% block header %}
+	<p><font color="#006633" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Welcome {{ response }} to The SRM Group LLC Customer Portal</strong></font></p>
+{% endblock %}
+
+{% block content %}
+{{ debug }}
+	Access your files:<br>
+	{% if file_list %}
+		<ul>
+		{% for file in file_list %}
+			<li>{{ file.file_inc|render_uploads|safe }}</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>No files for user.</p>
+	{% endif %}
+
+{% endblock %}
