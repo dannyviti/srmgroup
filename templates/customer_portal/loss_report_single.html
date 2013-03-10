@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block header %}
+	<p><font color="#006633" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>{{ response }}</strong></font></p>
+{% endblock %}
+
+{% block content %}
+{{ debug }}
+	BIG FORM:<br>
+    {% if report_details %}
+	    {% for report in report_details %}
+	        SRM ID: {{ report.srm_id }} - DATE: {{ report.date }} - 
+		    {{ report.reported_by }}
+		    {{ report.o_call_back }}
+		    {{ report.c_call_back }}
+		    {{ report.f_call_back }}
+		    {{ report.organization_id }}
+		    {{ report.loss_loc }}
+		    {{ report.site_cont }}
+		    {{ report.material_dis }}
+		    {{ report.material_dis_qt }}
+		    {{ report.pervious }}
+		    {{ report.impervious }}
+		    {{ report.surface_water }}
+		    {{ report.storm_drain }}
+		    {{ report.msds_sec }}
+		    {{ report.dot_reportbl }}
+		    {{ report.c_claim_no }}
+		    {{ report.c_freight_no }}
+		    {{ report.c_adjuster_no }}
+		    {{ report.c_tractor_no }}
+		    {{ report.c_trailer_no }}
+		    {{ report.c_driver }}
+		    {{ report.c_driver_no }}
+		    {{ report.police_fire_recovery }}
+		    {{ report.agency_state }}
+		    {{ report.agency_state_no }}
+		    {{ report.agency_epa }}
+		    {{ report.agency_epa_no }}
+		    {{ report.agency_nrc }}
+		    {{ report.agency_nrc_no }}
+		    {{ report.responder_info_id }}
+		    {{ report.initial_corrective_actions }}
+		    {{ report.initial_reserve }}
+		    {{ report.ir_given_to }}
+		    {{ report.ir_date }}
+		    {{ report.adjusted_reserve }}
+		    {{ report.ar_given_to }}
+			{{ report.ar_date }}
+			{{ report.project_scope_timeline }}
+			{{ report.site_work_completed_comments }}
+        {% endfor %}
+    {% else %}
+        <p>No matching reports for {{ report_id }}.</p>
+    {% endif %}
+
+{% endblock %}

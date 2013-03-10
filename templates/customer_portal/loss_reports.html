@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block header %}
+	<p><font color="#006633" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>{{ response }}</strong></font></p>
+{% endblock %}
+
+{% block content %}
+{{ debug }}
+	Access your reports:<br>
+    {% if report_list %}
+        <ul>
+        {% for report in report_list %}
+		<li><a href='/cp/loss_report_single/{{ report.srm_id }}'>{{ report.srm_id }} - {{ report.date }} - {{ report.loss_loc }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No loss reports for {{ user }}.</p>
+    {% endif %}
+
+{% endblock %}
