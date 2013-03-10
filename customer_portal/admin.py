@@ -21,6 +21,7 @@ class loss_reportAdmin(admin.ModelAdmin):
         ('Agency Notification',           {'fields': ['agency_state','agency_state_no','agency_epa','agency_epa_no','agency_nrc','agency_nrc_no']}),
         (None,           {'fields': ['responder_info']}),
         (None,           {'fields': ['initial_corrective_actions','intial_reserve','ir_given_to','ir_date','adjusted_reserve','ar_given_to','ar_date','project_scope_timeline','site_work_completed_comments']}),
+        (None,           {'fields': ['visible']}),
     ]
     list_display = ('srm_id','organization','date')
 

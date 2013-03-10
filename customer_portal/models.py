@@ -24,6 +24,7 @@ class responder_information(models.Model):
 	fax = models.CharField(max_length=100)
 	email = models.CharField(max_length=100)
 	website = models.CharField(max_length=100)
+	visible = models.BooleanField()
 	def __unicode__(self):
 		return u'%s (%s, %s)' % (self.contractor_name, self.city, self.state)
 	class Meta:
@@ -72,7 +73,11 @@ class loss_report(models.Model):
 	ar_date = models.DateField('Date')
 	project_scope_timeline = models.TextField()
 	site_work_completed_comments = models.TextField()
+	visible = models.BooleanField()
 	class Meta:
 		verbose_name = 'Loss Report'
 		verbose_name_plural = 'Loss Reports'
+        permissions = (
+		    ("can_view_reports", "Can view Loss Reports"),
+	    )
 

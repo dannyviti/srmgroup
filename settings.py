@@ -105,6 +105,7 @@ INSTALLED_APPS = (
     'adminfiles',
     'customer_portal',
     'sorl.thumbnail',
+	'south',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

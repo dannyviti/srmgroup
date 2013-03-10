@@ -3,13 +3,17 @@ from django.template import Context, loader
 from django.http import HttpResponse, Http404
 from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import permission_required
-from customer_portal.models import Files
+from customer_portal.models import Files, responder_information, loss_report
 from django.core.servers.basehttp import FileWrapper
 from django.db.models import Q
 import os, mimetypes
 
-def index(request):
-	return HttpResponse("Hello User, you're logged in please choose a file to download.")
+@permission_required('customer_portal.can_view_uploads', login_url="/cp/customer/login/")
+def portal_index(request):
+	response = "%s welcome to The SRM Group LLC Customer Portal" % request.user.first_name
+	return render_to_response('customer_portal/index.html',{
+		'response': response,
+		})
 
 @permission_required('customer_portal.can_view_uploads', login_url="/cp/customer/login/")
 def file_index(request):
@@ -38,6 +42,43 @@ def file_index(request):
 		'groups': groups,
 		'file_id_list': file_id_list,
 		'file_list': file_list,
+		})
+
+@permission_required('customer_portal.can_view_reports', login_url="/cp/customer/login/")
+def loss_reports_index(request):
+	user_id = request.user.id
+	groups = request.user.groups
+	group_ids = []
+	for grp in iter(request.user.groups.all()):
+		group_ids.append(grp.id)
+	#debug = "group ids %s\n" % group_ids
+	report_list = loss_report.objects.filter(organization_id__in=group_ids, visible__exact=1).distinct().order_by('srm_id', 'date')
+	response = "%s here are The SRM Group Loss Reports for your account" % request.user.first_name
+	return render_to_response('customer_portal/loss_reports.html',{
+		'response': response,
+		'user' : request.user.first_name,
+		'report_list': report_list,
+		#'debug': debug,
+		})
+
+@permission_required('customer_portal.can_view_reports', login_url="/cp/customer/login/")
+def loss_report_single(request, report_id):
+	user_id = request.user.id
+	groups = request.user.groups
+	group_ids = []
+	for grp in iter(request.user.groups.all()):
+		group_ids.append(grp.id)
+	#debug = "group ids %s<br>\n" % group_ids
+	#debug += "report id %s<br>\n" % report_id
+	report_details = loss_report.objects.filter(srm_id__exact=report_id, organization_id__in=group_ids, visible__exact=1).distinct().order_by('srm_id', 'date')
+	#debug += "query - %s<br>\n" % loss_report.objects.filter(srm_id__exact=report_id, organization_id__in=group_ids, visible__exact=1).query
+	response = "SRM ID: %s - Loss Report Detail" % report_id
+	return render_to_response('customer_portal/loss_report_single.html',{
+		'response': response,
+		'user' : request.user.first_name,
+		'report_details': report_details,
+		'report_id': report_id,
+		#'debug': debug,
 		})
 
 @permission_required('customer_portal.can_view_uploads', login_url="/cp/customer/login/")
