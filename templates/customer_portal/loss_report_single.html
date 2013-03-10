@@ -6,49 +6,102 @@
 
 {% block content %}
 {{ debug }}
-	BIG FORM:<br>
     {% if report_details %}
 	    {% for report in report_details %}
-	        SRM ID: {{ report.srm_id }} - DATE: {{ report.date }} - 
-		    {{ report.reported_by }}
-		    {{ report.o_call_back }}
-		    {{ report.c_call_back }}
-		    {{ report.f_call_back }}
-		    {{ report.organization_id }}
-		    {{ report.loss_loc }}
-		    {{ report.site_cont }}
-		    {{ report.material_dis }}
-		    {{ report.material_dis_qt }}
-		    {{ report.pervious }}
-		    {{ report.impervious }}
-		    {{ report.surface_water }}
-		    {{ report.storm_drain }}
-		    {{ report.msds_sec }}
-		    {{ report.dot_reportbl }}
-		    {{ report.c_claim_no }}
-		    {{ report.c_freight_no }}
-		    {{ report.c_adjuster_no }}
-		    {{ report.c_tractor_no }}
-		    {{ report.c_trailer_no }}
-		    {{ report.c_driver }}
-		    {{ report.c_driver_no }}
-		    {{ report.police_fire_recovery }}
-		    {{ report.agency_state }}
-		    {{ report.agency_state_no }}
-		    {{ report.agency_epa }}
-		    {{ report.agency_epa_no }}
-		    {{ report.agency_nrc }}
-		    {{ report.agency_nrc_no }}
-		    {{ report.responder_info_id }}
-		    {{ report.initial_corrective_actions }}
-		    {{ report.initial_reserve }}
-		    {{ report.ir_given_to }}
-		    {{ report.ir_date }}
-		    {{ report.adjusted_reserve }}
-		    {{ report.ar_given_to }}
-			{{ report.ar_date }}
-			{{ report.project_scope_timeline }}
-			{{ report.site_work_completed_comments }}
+			<div class="bodyTxt">
+				<span class="reportLbl">SRM ID:</span></span> {{ report.srm_id }} 
+				<span class="reportLbl">Date/Time:</span> {{ report.date }}
+				<br>
+				<span class="reportLbl">Name of Person Calling:</span> {{ report.reported_by }}
+				<br>
+				<span class="reportLbl">Call Back Numbers:</span> {{ report.o_call_back }} (O)
+				{{ report.c_call_back }} (C)
+				{{ report.f_call_back }} (Fax)
+				<br>
+				{% for busname in org_name %}
+				<span class="reportLbl">Organization:</span> {{ busname }}
+				<br>
+				{% endfor %}
+				<span class="reportLbl">Loss Location:</span> {{ report.loss_loc }}
+				<br>
+				<span class="reportLbl">On site Contact:</span> {{ report.site_cont }}
+				<br>
+				<span class="reportLbl">Material Discharged:</span> {{ report.material_dis }}
+				<span class="reportLbl">Quantity:</span> {{ report.material_dis_qt }}
+				<br>
+				<table class="bodyTxt">
+					<tr>
+						<td><span class="reportLbl">Released to:</span></td> 
+						<td><span class="reportLbl">Pervious</span> {{ report.pervious|yesno:"Yes,No" }}</td>
+					<tr>
+						<td></td>
+						<td><span class="reportLbl">Impervious</span> {{ report.impervious|yesno:"Yes,No" }}</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><span class="reportLbl">Surface Water</span> {{ report.surface_water|yesno:"Yes,No" }}</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><span class="reportLbl">Storm Drain</span> {{ report.storm_drain|yesno:"Yes,No" }}</td>
+					</tr>
+				</table>
+				<span class="reportLbl">MSDS secured:</span> {{ report.msds_sec|yesno:"Yes,No" }}
+				<span class="reportLbl">DOT reportable:</span> {{ report.dot_reprtbl|yesno:"Yes,No" }}
+				<br> <br>
+				<span class="reportLbl">Client reference number:</span>
+				<br>
+				<span class="reportLbl">Claim#:</span> {{ report.c_claim_no }}
+				<span class="reportLbl">Freight Bill#:</span> {{ report.c_freight_no }}
+				<br>
+				<span class="reportLbl">Adjuster assigned:</span> {{ report.c_adjuster_no }}
+				<br>
+				<span class="reportLbl">Tractor#:</span> {{ report.c_tractor_no }}
+				<span class="reportLbl">Trailer#:</span> {{ report.c_trailer_no }}
+				<br>
+				<span class="reportLbl">Driver Name:</span> {{ report.c_driver }}
+				<span class="reportLbl">Contact Number:</span> {{ report.c_driver_no }}
+				<br><br>
+				<span class="reportLbl">Police/Fire/Recovery on site:</span> {{ report.police_fire_recovery }}
+				<br> <br>
+				<span class="reportLbl">Agency notification:</span>
+				<br>
+				<span class="reportLbl">State:</span> {{ report.agency_state }}
+				<span class="reportLbl">Number assigned:</span> {{ report.agency_state_no }}
+				<br>
+				<span class="reportLbl">EPA:</span> {{ report.agency_epa }}
+				<span class="reportLbl">Number assigned:</span> {{ report.agency_epa_no }}
+				<br>
+				<span class="reportLbl">NRC:</span> {{ report.agency_nrc }}
+				<span class="reportLbl">Number assigned:</span> {{ report.agency_nrc_no }}
+				<br><br>
+				<span class="reportLbl">Responder information:</span>
+				<br>
+				<span class="reportLbl">Contractor:</span> {{ report.responder_info.contractor_name }}
+				<br>
+				<span class="reportLbl">City:</span> {{ report.responder_info.city }}
+				<span class="reportLbl">State:</span> {{ report.responder_info.state }}
+				<br>
+				<span class="reportLbl">Phone:</span> {{ report.responder_info.phone }}
+				<span class="reportLbl">Fax:</span> {{ report.responder_info.fax }}
+				<span class="reportLbl">Email:</span> {{ report.responder_info.email }}
+				<br>
+				<span class="reportLbl">Website:</span> {{ report.responder_info.website }}
+				<br> <br>
+				<span class="reportLbl">Initial corrective actions:</span> {{ report.initial_corrective_actions }}
+				<br> <br>
+				<span class="reportLbl">Initial reserve</span> ${{ report.intial_reserve|default:"0.00" }}
+				<span class="reportLbl">Given to:</span> {{ report.ir_given_to }}
+				<span class="reportLbl">Date:</span> {{ report.ir_date }}
+				<br>
+				<span class="reportLbl">Adjusted reserver</span> ${{ report.adjusted_reserve|default:"0.00" }}
+				<span class="reportLbl">Given to:</span> {{ report.ar_given_to }}
+				<span class="reportLbl">Date:</span> {{ report.ar_date }}
+				<br> <br>
+				<span class="reportLbl">Project scope timeline:</span> {{ report.project_scope_timeline }}
+				<br> <br>
+				<span class="reportLbl">Site work completed/comments:</span> {{ report.site_work_completed_comments }}
+				<br><br><br><br>
         {% endfor %}
     {% else %}
         <p>No matching reports for {{ report_id }}.</p>

@@ -70,7 +70,8 @@ def loss_report_single(request, report_id):
 		group_ids.append(grp.id)
 	#debug = "group ids %s<br>\n" % group_ids
 	#debug += "report id %s<br>\n" % report_id
-	report_details = loss_report.objects.filter(srm_id__exact=report_id, organization_id__in=group_ids, visible__exact=1).distinct().order_by('srm_id', 'date')
+	report_details = loss_report.objects.filter(srm_id__exact=report_id, organization_id__in=group_ids, visible__exact=1).distinct().order_by('srm_id', 'date').select_related('organization', 'responder_info')
+	org_name = loss_report.objects.values_list('organization__name', flat=True)
 	#debug += "query - %s<br>\n" % loss_report.objects.filter(srm_id__exact=report_id, organization_id__in=group_ids, visible__exact=1).query
 	response = "SRM ID: %s - Loss Report Detail" % report_id
 	return render_to_response('customer_portal/loss_report_single.html',{
@@ -78,6 +79,7 @@ def loss_report_single(request, report_id):
 		'user' : request.user.first_name,
 		'report_details': report_details,
 		'report_id': report_id,
+		'org_name': org_name,
 		#'debug': debug,
 		})
 

@@ -7,7 +7,7 @@ class Files(models.Model):
 	user = models.ForeignKey(User, blank=True, null=True, default=1)
 	group = models.ForeignKey(Group, blank=True, null=True)
 	all = models.BooleanField()
-	visible = models.BooleanField()
+	visible = models.BooleanField(default=1)
 	def __unicode__(self):
 		return self.name
 	class Meta:
@@ -24,12 +24,15 @@ class responder_information(models.Model):
 	fax = models.CharField(max_length=100)
 	email = models.CharField(max_length=100)
 	website = models.CharField(max_length=100)
-	visible = models.BooleanField()
+	visible = models.BooleanField(default=1)
 	def __unicode__(self):
 		return u'%s (%s, %s)' % (self.contractor_name, self.city, self.state)
 	class Meta:
 		verbose_name = 'Responder Information'
 		verbose_name_plural = 'Responders Information'
+        permissions = (
+		    ("can_view_reports", "Can view Loss Reports"),
+	    )
 
 class loss_report(models.Model):
 	date = models.DateTimeField()
@@ -38,7 +41,7 @@ class loss_report(models.Model):
 	o_call_back = models.CharField('Office No.', max_length=20)
 	c_call_back = models.CharField('Cell No.', max_length=20)
 	f_call_back = models.CharField('Fax No.', max_length=20)
-	organization = models.ForeignKey(Group, blank=True, null=True)
+	organization = models.ForeignKey(Group, blank=True)
 	loss_loc = models.CharField('Loss Location', max_length=400)
 	site_cont = models.CharField('Onsite contact', max_length=100)
 	material_dis = models.CharField('Material Discharge', max_length=100)
@@ -63,7 +66,7 @@ class loss_report(models.Model):
 	agency_epa_no = models.CharField('Agency EPA #', max_length=100)
 	agency_nrc = models.CharField('Agency NRC', max_length=100)
 	agency_nrc_no = models.CharField('Agency NRC #', max_length=100)
-	responder_info = models.ForeignKey(responder_information, blank=True, null=True)
+	responder_info = models.ForeignKey(responder_information, blank=True)
 	initial_corrective_actions = models.TextField()
 	intial_reserve = models.CharField(max_length=100)
 	ir_given_to = models.CharField('Initial Given to', max_length=100)
@@ -73,7 +76,7 @@ class loss_report(models.Model):
 	ar_date = models.DateField('Date')
 	project_scope_timeline = models.TextField()
 	site_work_completed_comments = models.TextField()
-	visible = models.BooleanField()
+	visible = models.BooleanField(default=1)
 	class Meta:
 		verbose_name = 'Loss Report'
 		verbose_name_plural = 'Loss Reports'
