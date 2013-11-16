@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 	(r'^loss_reports/$', 'customer_portal.views.loss_reports_index'),
 	(r'^loss_report_single/(?P<report_id>.*)$', 'customer_portal.views.loss_report_single'),
 	(r'^portal/$', 'customer_portal.views.portal_index'),
-	(r'^srmgroup/adminfiles/(?P<filename>.*)$', 'customer_portal.views.sendfile', {'path':'/home/django_code/media/srmgroup/media_upload/srmgroup/adminfiles/'}),
+	(r'^media_upload/srmgroup/adminfiles/(?P<filename>.*)$', 'customer_portal.views.sendfile', {'path':'/home/django_code/media/srmgroup/media_upload/srmgroup/adminfiles/'}),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
